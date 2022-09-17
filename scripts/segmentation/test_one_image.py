@@ -104,16 +104,16 @@ def interface(image):
 
 
 def image2image(image):
-    start = datetime.datetime.now()
-    snapshot = "bisenetv2_checkpoint_BiSeNetV2_epoch_300.pth"
-    segmentation_handler = RailtrackSegmentationHandler(snapshot, BiSeNetV2Config())
-    mask, overlay = segmentation_handler.run(image, only_mask=False)
-    data = get_line_points(mask)
-    _processing_time = datetime.datetime.now() - start
 
-    print("processing time one frame {}[ms]".format(_processing_time.total_seconds() * 1000))
+    data = interface(image)
 
-    return data
+    if data['tracks']:
+        cv2.circle(image, data['left'][0], 5, (255, 0, 255), 3)
+        cv2.circle(image, data['left'][1], 5, (255, 0, 255), 3)
+        cv2.circle(image, data['right'][0], 5, (255, 0, 0), 3)
+        cv2.circle(image, data['right'][1], 5, (255, 0, 0), 3)
+
+    return image
 
 
 def main():
