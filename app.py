@@ -54,4 +54,4 @@ def detect_preview_post():
     path_out = "static/" + filename
     cv.imwrite(path_out, img_out)
 
-    return redirect(path_out)
+    return redirect("/" + path_out)
