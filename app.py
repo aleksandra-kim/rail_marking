@@ -10,8 +10,8 @@ from scripts.segmentation.test_one_image import interface, image2image
 app = Flask(__name__)
 
 
-def random_filename():
-    return "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
+def with_random_prefix(name):
+    return "".join(random.choices(string.ascii_uppercase + string.digits, k=6)) + "_" + name
 
 
 @app.route("/detect", methods=["GET"])
@@ -23,7 +23,7 @@ def detect_get():
 def detect_post():
     image = request.files["image"]
 
-    path = "uploads/" + random_filename()
+    path = "uploads/" + with_random_prefix(image.filename)
     image.save(path)
 
     img = cv.imread(path)
@@ -43,9 +43,8 @@ def detect_preview_get():
 @app.route("/detect/preview", methods=["POST"])
 def detect_preview_post():
     image = request.files["image"]
-    print(image.filename)
 
-    filename = random_filename()
+    filename = with_random_prefix(image.filename)
     path = "uploads/" + filename
     image.save(path)
 
