@@ -49,7 +49,6 @@ def get_line_points(m):
     x_top = m.shape[0]//2
     level_top = m[x_top, :]
     y_top_left, y_top_right = find_coor(level_top)
-    print(y_top_left, y_top_right)
 
     x_bottom = int(2*m.shape[0]//3)
     level_bottom = m[x_bottom, :]
@@ -67,12 +66,12 @@ def get_line_points(m):
     # }
     return {
         "left": [
-            (y_bottom_left, x_bottom),
-            (y_top_left, x_top)
+            [int(y_bottom_left), int(x_bottom)],
+            [int(y_top_left), int(x_top)],
         ],
         "right": [
-            (y_bottom_right, x_bottom),
-            (y_top_right, x_top)
+            [int(y_bottom_right), int(x_bottom)],
+            [int(y_top_right), int(x_top)],
         ],
     }
 
