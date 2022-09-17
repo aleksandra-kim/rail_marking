@@ -1,3 +1,5 @@
+import tempfile
+
 import cv2 as cv
 
 from flask import Flask, request, render_template
@@ -14,11 +16,13 @@ def index():
 @app.route("/detect", methods=["POST"])
 def upload_file():
     image = request.files["image"]
-    img = cv.imread(image.filename)
+    with tempfile.TemporaryFile() as fp:
+        image.save(fp.name)
+        img = cv.imread(fp.name)
 
-    points = interface(img)
-    print(points)
+        points = interface(img)
+        print(points)
 
-    return {
-        "points": points,
-    }
+        return {
+            "points": points,
+        }
