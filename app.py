@@ -15,12 +15,12 @@ def random_filename():
 
 
 @app.route("/detect", methods=["GET"])
-def index():
+def detect_get():
     return render_template("detect.html", action="/detect")
 
 
 @app.route("/detect", methods=["POST"])
-def upload_file():
+def detect_post():
     image = request.files["image"]
 
     path = "uploads/" + random_filename()
@@ -36,12 +36,12 @@ def upload_file():
 
 
 @app.route("/detect/preview", methods=["GET"])
-def index():
+def detect_preview_get():
     return render_template("detect.html", action="/detect/preview")
 
 
 @app.route("/detect/preview", methods=["POST"])
-def upload_file():
+def detect_preview_post():
     image = request.files["image"]
 
     filename = random_filename()
