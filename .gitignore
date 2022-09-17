@@ -86,3 +86,7 @@ GPATH
 GRTAGS
 GSYMS
 GTAGS
+
+.idea/
+mask.mat
+bisenetv2_checkpoint_BiSeNetV2_epoch_300.pth

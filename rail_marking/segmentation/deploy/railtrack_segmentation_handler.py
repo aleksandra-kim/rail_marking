@@ -20,11 +20,13 @@ class RailtrackSegmentationHandler:
 
         self._data_config = Rs19DatasetConfig()
         self._model = BiSeNetV2(n_classes=self._data_config.num_classes)
-        self._model.load_state_dict(torch.load(path_to_snapshot)["state_dict"])
+        self._model.load_state_dict(torch.load(path_to_snapshot,  map_location=torch.device('cpu'))["state_dict"])
         self._model.eval()
 
         if torch.cuda.is_available():
             self._model = self._model.cuda()
+        # else:
+        #     map_location='cpu'
 
     def run(self, image, only_mask=True):
         orig_height, orig_width = image.shape[:2]

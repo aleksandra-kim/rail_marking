@@ -18,9 +18,9 @@ class Rs19DatasetConfig:
     ]
 
     RS19_COLORS = [
-        (0, 0, 255),
-        (255, 255, 102),
-        (0, 0, 0),
+        (0, 0, 255),  # red
+        (255, 255, 102),  # blue
+        (0, 0, 0),  # black
     ]
 
     @property
