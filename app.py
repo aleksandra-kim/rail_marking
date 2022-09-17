@@ -16,9 +16,11 @@ def index():
 @app.route("/detect", methods=["POST"])
 def upload_file():
     image = request.files["image"]
-    with tempfile.TemporaryFile() as fp:
-        image.save(fp.name)
-        img = cv.imread(fp.name)
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = tmpdir + "/" + image.filename
+        image.save(path)
+
+        img = cv.imread(path)
 
         points = interface(img)
         print(points)
