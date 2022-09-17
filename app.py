@@ -43,6 +43,7 @@ def detect_preview_get():
 @app.route("/detect/preview", methods=["POST"])
 def detect_preview_post():
     image = request.files["image"]
+    print(image.filename)
 
     filename = random_filename()
     path = "uploads/" + filename
