@@ -35,14 +35,17 @@ def get_args():
 
 
 def find_coor(level):
-    lblue = np.where(level == BLUE)[0][0]
-    rblue = np.where(level == BLUE)[0][-1]
-    len_lred = np.where(level[lblue:0:-1] == BLACK)[0][0]
-    len_rred = np.where(level[rblue:, ] == BLACK)[0][0]
-    print(len_lred, len_rred)
-    y_left = lblue - len_lred//2
-    y_right = rblue + len_rred//2
-    return y_left, y_right
+    try:
+        lblue = np.where(level == BLUE)[0][0]
+        rblue = np.where(level == BLUE)[0][-1]
+        len_lred = np.where(level[lblue:0:-1] == BLACK)[0][0]
+        len_rred = np.where(level[rblue:, ] == BLACK)[0][0]
+        print(len_lred, len_rred)
+        y_left = lblue - len_lred//2
+        y_right = rblue + len_rred//2
+        return y_left, y_right
+    except:
+        return None, None
 
 
 def get_line_points(m):
@@ -50,9 +53,19 @@ def get_line_points(m):
     level_top = m[x_top, :]
     y_top_left, y_top_right = find_coor(level_top)
 
+    if y_top_left is None or y_top_right is None:
+        return {
+            "tracks": False,
+        }
+
     x_bottom = int(2*m.shape[0]//3)
     level_bottom = m[x_bottom, :]
     y_bottom_left, y_bottom_right = find_coor(level_bottom)
+
+    if y_bottom_left is None or y_bottom_right is None:
+        return {
+            "tracks": False,
+        }
 
     # return {
     #     "left": [
@@ -73,10 +86,24 @@ def get_line_points(m):
             [int(y_bottom_right), int(x_bottom)],
             [int(y_top_right), int(x_top)],
         ],
+        "tracks": True,
     }
 
 
 def interface(image):
+    start = datetime.datetime.now()
+    snapshot = "bisenetv2_checkpoint_BiSeNetV2_epoch_300.pth"
+    segmentation_handler = RailtrackSegmentationHandler(snapshot, BiSeNetV2Config())
+    mask, overlay = segmentation_handler.run(image, only_mask=False)
+    data = get_line_points(mask)
+    _processing_time = datetime.datetime.now() - start
+
+    print("processing time one frame {}[ms]".format(_processing_time.total_seconds() * 1000))
+
+    return data
+
+
+def image2image(image):
     start = datetime.datetime.now()
     snapshot = "bisenetv2_checkpoint_BiSeNetV2_epoch_300.pth"
     segmentation_handler = RailtrackSegmentationHandler(snapshot, BiSeNetV2Config())
