@@ -1,5 +1,9 @@
-# 📝 proof-of-concept rail marking detections for autonomous train system #
+# AR application of rail detection for train clearance test
 ***
+
+Adapted from https://github.com/xmba15/rail_marking.
+
+Written in the scope of [HackZurich 2022](https://hackzurich.com/).
 
 This project implements rail-track detection using fast semantic segmentation for high-resolution images from [bisenetv2 algorithm](https://arxiv.org/abs/2004.02147).
 
